@@ -1,0 +1,6 @@
+{:paths ["src/main/clojure"]
+ :deps {org.clojure/clojure {:mvn/version "1.10.0"} 
+        compojure/compojure {:mvn/version "1.6.1"}
+        ring/ring-defaults {:mvn/version "0.3.2"}
+        http-kit/http-kit {:mvn/version "2.3.0"}}
+ :aliases {:run-server {:main-opts ["m" "com.bobsantosjr.basicweb.core"]}}}
