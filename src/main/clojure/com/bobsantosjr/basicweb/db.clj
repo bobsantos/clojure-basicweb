@@ -9,3 +9,10 @@
         health-check {:id id}]
     (conj health-checks health-check)
     health-check))
+
+(defn get-by-id
+  "Get health check data by ID"
+  [id]
+  (->> health-checks
+       (filter #(= (:id %) id))
+       (first)))

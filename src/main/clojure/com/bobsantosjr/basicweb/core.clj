@@ -7,10 +7,9 @@
 
 (defroutes app
            (GET "/" []
-             (let [{:keys [id]} (hc/new)]
-               (str "<h1>Health check form: <a href=\"/" id "\">" id "</a>")))
+             (hc/new))
            (GET "/:id" [id]
-             (str "<h1>Welcome to health check " id "</h1>"))
+             (hc/form id))
            (route/not-found "<h1>Page not found</h1>"))
 
 (defn -main []
