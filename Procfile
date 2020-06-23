@@ -1,0 +1,1 @@
+web: java -cp healthcheck.jar clojure.main -m com.bobsantosjr.basicweb.core
