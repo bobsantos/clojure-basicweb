@@ -19,5 +19,5 @@
              rp/wrap-params))
 
 (defn -main []
-  (run-server app {:port 3000})
-  (println "Server running on port 3000"))
+  (run-server app {:port 8080})
+  (println "Server running on port 8080"))
