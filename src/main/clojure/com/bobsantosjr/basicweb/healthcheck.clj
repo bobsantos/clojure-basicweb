@@ -5,7 +5,15 @@
 
 (def ratings ["Awesome" "Meh" "Disaster"])
 (def perspectives [{:id "etr" :title "Easy to Release" :awesome "Releasing is simple, safe, painless & mostly automated." :disaster "Releasing is risky, painful, lots of manual work, and takes forever."}
-                   {:id "su" :title "Suitable" :awesome "Our way of working fits us perfectly" :disaster "Our way of working sucks"}])
+                   {:id "su" :title "Suitable" :awesome "Our way of working fits us perfectly." :disaster "Our way of working sucks."}
+                   {:id "tq" :title "Tech quality (code base health)" :awesome "We’re proud of the quality of our code! It is clean, easy to read, and has great test coverage." :disaster "Our code is a pile of dung, and technical debt is raging out of control."}
+                   {:id "va" :title "Value" :awesome "We deliver great stuff! We’re proud of it and our stakeholders are really happy." :disaster "We deliver crap. We feel ashamed to deliver it. Our stakeholders hate us."}
+                   {:id "sp" :title "Speed" :awesome "We get stuff done really quickly.No waiting, no delays." :disaster "We never seem to get done with anything.We keep getting stuck or interrupted. Stories keep getting stuck on dependencies."}
+                   {:id "mi" :title "Mission" :awesome "We know exactly why we are here, and we are really excited about it." :disaster "We have no idea why we are here, there is no high level picture or focus. Our so-called mission is completely unclear and uninspiring."}
+                   {:id "fu" :title "Fun" :awesome "We love going to work, and have great fun working together." :disaster "Boooooooring."}
+                   {:id "le" :title "Learning" :awesome "We’re learning lots of interesting stuff all the time!" :disaster "We never have time to learn anything"}
+                   {:id "sup" :title "Support" :awesome "We always get great support & help when we ask for it!" :disaster "We keep getting stuck because we can’t get the support & help that we ask for."}
+                   {:id "pp" :title "Pawns or players" :awesome "We are in control of our destiny! We decide what to build and how to build it." :disaster "We are just pawns in a game of chess, with no influence over what we build or how we build it."}])
 
 (defn- page
   "Main layout for the site"
