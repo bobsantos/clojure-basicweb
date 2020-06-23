@@ -4,7 +4,8 @@
             [compojure.route :as route]
             [org.httpkit.server :refer [run-server]]
             [com.bobsantosjr.basicweb.healthcheck :as hc]
-            [ring.middleware.params :as rp]))
+            [ring.middleware.params :as rp]
+            [environ.core :refer [env]]))
 
 (defroutes handler
            (GET "/" []
@@ -19,5 +20,6 @@
              rp/wrap-params))
 
 (defn -main []
-  (run-server app {:port 8080})
-  (println "Server running on port 8080"))
+  (let [port (Integer/parseInt (env :port))]
+    (run-server app {:port port})
+    (println (str "Server running on port " port))))
