@@ -1,6 +1,5 @@
 (ns com.bobsantosjr.basicweb.db
-  (:require [clojure.string :as string]
-            [clojure.pprint :as pretty]))
+  (:require [clojure.string :as string]))
 
 (def state (atom {}))
 
@@ -19,21 +18,16 @@
   [id]
   ((keyword id) @state))
 
-(defn- map-response
-  "Map the response"
-  [response]
-  (let [response-map {}]
-    (doseq [[k v] response]
-      (let [[perspective attr & _] (string/split (str k) #"-")
-            perspective-attr (if (= "r" attr) :rating :comment)]
-        (assoc-in response-map [perspective perspective-attr] v)))
-    response-map))
+(defn- save-response-into-state!
+  "Save the response into state atom as a map {:healthcheck-id {:perspective1 {:rating rating :comment comment}} {:perspective2 {:rating rating :comment comment}}}"
+  [form-key response]
+  (doseq [[k v] response]
+    (let [[perspective attr & _] (string/split (str k) #"-")
+          perspective-attr (if (= "r" attr) :rating :comment)]
+      (swap! state assoc-in [(keyword (str form-key)) (keyword perspective) (keyword perspective-attr)] v)))
+  ((keyword (str form-key)) @state))
 
 (defn save-response
   "Adds response to health check"
-  [id response]
-  (let [k (keyword id)
-        response-map (map-response response)]
-    (swap! state update-in [k] merge response-map)
-    (pretty/pprint response-map)
-    response-map))
+  [form-key response]
+  (save-response-into-state! form-key response))

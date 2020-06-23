@@ -1,8 +1,7 @@
 (ns com.bobsantosjr.basicweb.healthcheck
   (:require [com.bobsantosjr.basicweb.db :as db]
             [hiccup.core :refer [html]]
-            [hiccup.form :as f]
-            [clojure.pprint :as pprint]))
+            [hiccup.form :as f]))
 
 (def ratings ["Awesome" "Meh" "Disaster"])
 (def perspectives [{:id "etr" :title "Easy to Release" :awesome "Releasing is simple, safe, painless & mostly automated." :disaster "Releasing is risky, painful, lots of manual work, and takes forever."}
@@ -55,9 +54,28 @@
              [:div]
              [:div (f/submit-button {} "Submit")]]))))
 
+(defn- summary-perspective-title
+  [key]
+  (let [title (-> (filter #(= (% :id) (name key)) perspectives)
+                  first
+                  (:title))]
+    [:h2 title]))
+
+(defn- summary-perspective-content
+  [k v]
+  (let [title (clojure.string/capitalize (name k))]
+    [:p
+     [:strong title] ": " [:em v]]))
 
 (defn save-response!
   "Saves the health check answer to correct health check form"
-  [{:keys [params] :as req}]
-  (pprint/pprint req)
-  (db/save-response (:id params) (dissoc params :id)))
+  [{:keys [params]}]
+  (let [answer-map (db/save-response (:id params) (dissoc params :id))]
+    (page (str (:id params) "answer summary")
+          [:div
+           [:h1 "Summary"]
+           (for [[k v] answer-map]
+             [:div
+              (summary-perspective-title k)
+              (for [[x y] v]
+                (summary-perspective-content x y))])])))
