@@ -1,22 +1,31 @@
 (ns com.bobsantosjr.basicweb.db
   (:require [clojure.string :as string]))
 
-(def state (atom {}))
+(def state (atom []))
+
+(comment
+  [{:id "uuid"
+    :answers [{:perspective1 {:rating "Awesome" :comment "Comment"}
+               :perspective2 {:rating "Awesome" :comment "Comment"}}
+              {:perspective1 {:rating "Awesome" :comment "Comment"}
+               :perspective2 {:rating "Awesome" :comment "Comment"}}]}])
 
 (defn new
   "Add new health check into db"
   []
-  (let [id (java.util.UUID/randomUUID)
-        health-check {:id id}]
+  (let [health-check {:id (str (java.util.UUID/randomUUID))
+                      :answers []}]
     (if (nil? @state)
-      (reset! state  {(keyword (str (java.util.UUID/randomUUID))) {}} )
-      (swap! state assoc (keyword (str id)) {}))
+      (reset! state [])
+      (swap! state conj health-check))
     health-check))
 
 (defn get-by-id
   "Get health check data by ID"
   [id]
-  ((keyword id) @state))
+  (->> @state
+       (filter #(= id (% :id)))
+       first))
 
 (defn- save-response-into-state!
   "Save the response into state atom as a map {:healthcheck-id {:perspective1 {:rating rating :comment comment}} {:perspective2 {:rating rating :comment comment}}}"
