@@ -14,6 +14,8 @@
              (hc/form id))
            (POST "/:id" req
              (hc/save-response! req))
+           (GET "/:id/summary" [id]
+             (hc/answers-summary id))
            (route/not-found "<h1>Page not found</h1>"))
 
 (def app (-> handler
@@ -22,4 +24,4 @@
 (defn -main []
   (let [port (Integer/parseInt (env :port))]
     (run-server app {:port port})
-    (println (str "Server running on port " port))))
+    (println (str "Server running at http://localhost:" port))))

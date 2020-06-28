@@ -1,7 +1,8 @@
 (ns com.bobsantosjr.basicweb.healthcheck
   (:require [com.bobsantosjr.basicweb.db :as db]
             [hiccup.core :refer [html]]
-            [hiccup.form :as f]))
+            [hiccup.form :as f]
+            [hiccup.element :refer [link-to]]))
 
 (def ratings ["Awesome" "Meh" "Disaster"])
 (def perspectives [{:id "etr" :title "Easy to Release" :awesome "Releasing is simple, safe, painless & mostly automated." :disaster "Releasing is risky, painful, lots of manual work, and takes forever."}
@@ -56,11 +57,24 @@
     (if (nil? health-check)
       (page "Not found" [:h1 "Health check not found"])
       (page "Health check form"
-            [:form {:action (str "/" id) :method "post"}
-             (for [p perspectives]
-               (perspective p))
-             [:div]
-             [:div (f/submit-button {} "Submit")]]))))
+            [:div
+             [:p
+              (link-to (str id "/summary") "Summary")]
+             [:div
+              [:form {:action (str "/" id) :method "post"}
+               (for [p perspectives]
+                 (perspective p))
+               [:div]
+               [:div (f/submit-button {} "Submit")]]]]))))
+
+(defn answers-summary
+  "Return a summary of answers for a form"
+  [id]
+  (let [health-check (db/get-by-id id)]
+    (if (nil? health-check)
+      (page "Not found" [:h1 "Health check not found"])
+      (page "Health check summary"
+            [:h2 "Answers Summary"]))))
 
 (defn- summary-perspective-title
   [key]

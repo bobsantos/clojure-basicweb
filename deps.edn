@@ -5,5 +5,5 @@
         http-kit/http-kit {:mvn/version "2.3.0"}
         hiccup/hiccup {:mvn/version "1.0.5"}
         environ/environ {:mvn/version "1.2.0"}}
- :aliases {:run-server {:main-opts ["m" "com.bobsantosjr.basicweb.core"]}
+ :aliases {:run-server {:main-opts ["-m" "com.bobsantosjr.basicweb.core"]}
            :depstar {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}}}}
