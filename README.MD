@@ -15,3 +15,6 @@
   - `clj -A:run-server`
 - the application will echo out it's URL
   - `Server running at http://localhost:3000`
+
+## Deploying to Heroku
+https://www.gertgoet.com/2019/02/06/deploying-a-tools-deps-clojure-project-to-heroku.html
