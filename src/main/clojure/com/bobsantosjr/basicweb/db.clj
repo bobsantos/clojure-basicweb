@@ -2,16 +2,6 @@
 
 (def state (atom {}))
 
-(comment
-  {:c2457ed9-22eb-455b-9cf3-281d3787c4b8 [{:perspective1 {:rating "Awesome" :comment "Comment"}
-                                           :perspective2 {:rating "Awesome" :comment "Comment"}}
-                                          {:perspective1 {:rating "Awesome" :comment "Comment"}
-                                           :perspective2 {:rating "Awesome" :comment "Comment"}}]
-   :66afddb2-9d36-4e94-9fb2-3f8555b473bf [{:perspective1 {:rating "Awesome" :comment "Comment"}
-                                           :perspective2 {:rating "Awesome" :comment "Comment"}}
-                                          {:perspective1 {:rating "Awesome" :comment "Comment"}
-                                           :perspective2 {:rating "Awesome" :comment "Comment"}}]})
-
 (defn new
   "Add new health check into db"
   []
@@ -44,3 +34,34 @@
   "Adds response to health check"
   [form-key response]
   (save-response-into-state! form-key response))
+
+(defn reduce-on-keys
+  "Reduce values of vector of maps into lists based on keys"
+  [coll]
+  (reduce (fn [r el]
+            (reduce (fn [ir [k v]] (update-in ir [k] (fnil conj []) v)) r el))
+          {}
+          coll))
+
+(defn get-summary
+  "Gets the summary of the answers in health-check-summary format"
+  [id]
+  (let [health-check (reduce-on-keys (get-by-id id))]
+    (reduce (fn [r [k v]]
+              (assoc-in r [k] (reduce-on-keys v)))
+            {}
+            health-check)))
+
+(comment
+  (def health-check-record {:c2457ed9-22eb-455b-9cf3-281d3787c4b8 [{:perspective1 {:rating "Awesome" :comment "Comment"}
+                                                                    :perspective2 {:rating "Awesome" :comment "Comment"}}
+                                                                   {:perspective1 {:rating "Awesome" :comment "Comment"}
+                                                                    :perspective2 {:rating "Awesome" :comment "Comment"}}]
+                            :66afddb2-9d36-4e94-9fb2-3f8555b473bf [{:perspective1 {:rating "Awesome" :comment "Comment"}
+                                                                    :perspective2 {:rating "Awesome" :comment "Comment"}}
+                                                                   {:perspective1 {:rating "Awesome" :comment "Comment"}
+                                                                    :perspective2 {:rating "Awesome" :comment "Comment"}}]}))
+
+(comment
+  (def health-check-summary {:perspective1 {:rating [] :comment []}
+                             :perspective2 {:rating [] :comment []}}))

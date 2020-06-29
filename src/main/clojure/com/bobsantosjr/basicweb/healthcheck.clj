@@ -43,6 +43,13 @@
     [:p [:strong "Comment"]]
     [:p (f/text-area {} (str id "-c") "")]]])
 
+(defn- perspective-title
+  [key]
+  (let [title (-> (filter #(= (% :id) (name key)) perspectives)
+                  first
+                  (:title))]
+    [:h2 title]))
+
 (defn new
   "Create health check and return html"
   []
@@ -78,14 +85,16 @@
         (page page-title
               [:h2 "No answers yet"])
         (page "Health check summary"
-              [:h2 "Answers summary"])))))
-
-(defn- summary-perspective-title
-  [key]
-  (let [title (-> (filter #(= (% :id) (name key)) perspectives)
-                  first
-                  (:title))]
-    [:h2 title]))
+              (for [[p a] (db/get-summary id)]
+                [:div
+                 [:h2 (perspective-title p)]
+                 (for [[k v] a]
+                   [:p
+                    [:strong (clojure.string/capitalize (str (name k) "s"))]
+                    ": " (if (= "rating" (name k))
+                           (clojure.string/join ", " v)
+                           (for [vv v]
+                             [:p vv]))])]))))))
 
 (defn- summary-perspective-content
   [k v]
@@ -96,12 +105,14 @@
 (defn save-response!
   "Saves the health check answer to correct health check form"
   [{:keys [params]}]
-  (let [answer-map (db/save-response (:id params) (dissoc params :id))]
-    (page (str (:id params) "answer summary")
+  (let [id (:id params)
+        answer-map (db/save-response id (dissoc params :id))]
+    (page (str id "answer summary")
           [:div
-           [:h1 "Summary"]
+           [:p (link-to (str "/" id "/summary") "Summary")]
+           [:h1 "Your Summary"]
            (for [[k v] answer-map]
              [:div
-              (summary-perspective-title k)
+              (perspective-title k)
               (for [[x y] v]
                 (summary-perspective-content x y))])])))
