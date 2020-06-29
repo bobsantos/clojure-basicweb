@@ -1,31 +1,29 @@
 (ns com.bobsantosjr.basicweb.db
   (:require [clojure.string :as string]))
 
-(def state (atom []))
+(def state (atom {}))
 
 (comment
-  [{:id "uuid"
-    :answers [{:perspective1 {:rating "Awesome" :comment "Comment"}
-               :perspective2 {:rating "Awesome" :comment "Comment"}}
-              {:perspective1 {:rating "Awesome" :comment "Comment"}
-               :perspective2 {:rating "Awesome" :comment "Comment"}}]}])
+  {:c2457ed9-22eb-455b-9cf3-281d3787c4b8 [{:perspective1 {:rating "Awesome" :comment "Comment"}
+                                           :perspective2 {:rating "Awesome" :comment "Comment"}}
+                                          {:perspective1 {:rating "Awesome" :comment "Comment"}
+                                           :perspective2 {:rating "Awesome" :comment "Comment"}}]
+   :66afddb2-9d36-4e94-9fb2-3f8555b473bf [{:perspective1 {:rating "Awesome" :comment "Comment"}
+                                           :perspective2 {:rating "Awesome" :comment "Comment"}}
+                                          {:perspective1 {:rating "Awesome" :comment "Comment"}
+                                           :perspective2 {:rating "Awesome" :comment "Comment"}}]})
 
 (defn new
   "Add new health check into db"
   []
-  (let [health-check {:id (str (java.util.UUID/randomUUID))
-                      :answers []}]
-    (if (nil? @state)
-      (reset! state [])
-      (swap! state conj health-check))
-    health-check))
+  (let [id (keyword (str (java.util.UUID/randomUUID)))]
+    (swap! state conj {id []})
+    (name id)))
 
 (defn get-by-id
   "Get health check data by ID"
   [id]
-  (->> @state
-       (filter #(= id (% :id)))
-       first))
+  (@state (keyword id)))
 
 (defn- save-response-into-state!
   "Save the response into state atom as a map {:healthcheck-id {:perspective1 {:rating rating :comment comment}} {:perspective2 {:rating rating :comment comment}}}"

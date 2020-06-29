@@ -46,7 +46,7 @@
 (defn new
   "Create health check and return html"
   []
-  (let [{:keys [id]} (db/new)]
+  (let [id (db/new)]
     (page "Health check form link"
           [:h1 "Health check form: " [:a {:href id} id]])))
 
@@ -59,7 +59,7 @@
       (page "Health check form"
             [:div
              [:p
-              (link-to (str id "/summary") "Summary")]
+              (link-to (str "/" id "/summary") "Summary")]
              [:div
               [:form {:action (str "/" id) :method "post"}
                (for [p perspectives]
