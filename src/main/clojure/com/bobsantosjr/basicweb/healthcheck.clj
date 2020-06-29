@@ -46,7 +46,7 @@
 (defn new
   "Create health check and return html"
   []
-  (let [{:keys [id]} (db/new)]
+  (let [id (db/new)]
     (page "Health check form link"
           [:h1 "Health check form: " [:a {:href id} id]])))
 
@@ -59,7 +59,7 @@
       (page "Health check form"
             [:div
              [:p
-              (link-to (str id "/summary") "Summary")]
+              (link-to (str "/" id "/summary") "Summary")]
              [:div
               [:form {:action (str "/" id) :method "post"}
                (for [p perspectives]
@@ -70,11 +70,15 @@
 (defn answers-summary
   "Return a summary of answers for a form"
   [id]
-  (let [health-check (db/get-by-id id)]
+  (let [health-check (db/get-by-id id)
+        page-title "Health check summary"]
     (if (nil? health-check)
       (page "Not found" [:h1 "Health check not found"])
-      (page "Health check summary"
-            [:h2 "Answers Summary"]))))
+      (if (empty? health-check)
+        (page page-title
+              [:h2 "No answers yet"])
+        (page "Health check summary"
+              [:h2 "Answers summary"])))))
 
 (defn- summary-perspective-title
   [key]
