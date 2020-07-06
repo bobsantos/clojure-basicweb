@@ -3,9 +3,11 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [org.httpkit.server :refer [run-server]]
-            [com.bobsantosjr.basicweb.healthcheck :as hc]
             [ring.middleware.params :as rp]
-            [environ.core :refer [env]]))
+            [ring.middleware.cors :refer [wrap-cors]]
+            [environ.core :refer [env]]
+            [com.bobsantosjr.basicweb.healthcheck :as hc]
+            [com.bobsantosjr.basicweb.api :as api]))
 
 (defroutes handler
            (GET "/" []
@@ -16,10 +18,16 @@
              (hc/save-response! req))
            (GET "/:id/summary" [id]
              (hc/answers-summary id))
+           (GET "/api/healthcheck" []
+             {:status 200
+              :headers {"Content-Type" "application/json"}
+              :body (api/new)})
            (route/not-found "<h1>Page not found</h1>"))
 
 (def app (-> handler
-             rp/wrap-params))
+             rp/wrap-params
+             (wrap-cors :access-control-allow-origin [#".*"]
+                        :access-control-allow-methods [:get :put :post :delete])))
 
 (defn -main []
   (let [port (Integer/parseInt (env :port))]

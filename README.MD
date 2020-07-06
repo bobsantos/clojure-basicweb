@@ -10,10 +10,15 @@
 - [environ](https://github.com/weavejester/environ) for fetching environment variables
 
 ## Second Trial
-### Tech
+### Frontend Tech
 - [ClojureScript](https://clojurescript.org/)
 - [shadow-cljs](http://shadow-cljs.org/) as compiler
 - [secretary](https://github.com/clj-commons/secretary) as router
+- [cljs-http](https://github.com/r0man/cljs-http) as http client
+- [core.async](https://github.com/clojure/core.async) for async processing
+
+### Backend Tech
+- [Cheshire](https://github.com/dakrone/cheshire) as json encoder/decoder
 
 ## Running the application locally
 ### Backend

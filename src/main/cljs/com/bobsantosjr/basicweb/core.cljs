@@ -1,7 +1,10 @@
 (ns com.bobsantosjr.basicweb.core
   (:require [secretary.core :as secretary]
-            [goog.events :as events])
-  (:require-macros [secretary.core :refer [defroute]])
+            [goog.events :as events]
+            [com.bobsantosjr.basicweb.api :as api]
+            [cljs.core.async :refer [<!]])
+  (:require-macros [secretary.core :refer [defroute]]
+                   [cljs.core.async.macros :refer [go]])
   (:import [goog History]
            [goog.history EventType]))
 
@@ -14,7 +17,10 @@
 (secretary/set-config! :prefix "#")
 
 (defroute home-path "/" []
-          (set-html! app "<h1>Home</h1>"))
+          (go (let [{:keys [body]} (<! (api/new))
+                    {:keys [id]} body]
+                (js/console.log (str "id: " id))
+                (set-html! app (str "<h1>Health check form: <a href=\"http://localhost:3000/" id "\">" id "</a></h1>")))))
 
 (defroute "*" []
           (set-html! app "<h1>Page Not Found</h1>"))
