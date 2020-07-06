@@ -6,3 +6,11 @@
 *.class
 /.cpcache
 *.iml
+
+/public/js
+/node_modules
+/yarn.lock
+/package-lock.json
+/*.log
+.shadow-cljs/
+.nrepl-port

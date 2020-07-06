@@ -1,9 +1,10 @@
-{:paths ["src/main/clojure"]
+{:paths ["src/main/clj" "src/main/cljs"]
  :deps {org.clojure/clojure {:mvn/version "1.10.0"} 
         compojure/compojure {:mvn/version "1.6.1"}
         ring/ring-defaults {:mvn/version "0.3.2"}
         http-kit/http-kit {:mvn/version "2.3.0"}
         hiccup/hiccup {:mvn/version "1.0.5"}
-        environ/environ {:mvn/version "1.2.0"}}
+        environ/environ {:mvn/version "1.2.0"}
+        org.clojure/clojurescript {:mvn/version "1.10.764"}}
  :aliases {:run-server {:main-opts ["-m" "com.bobsantosjr.basicweb.core"]}
            :depstar {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}}}}
