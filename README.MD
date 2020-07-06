@@ -3,7 +3,7 @@
 ## First Trial
 ### Tech
 - [Clojure](https://clojure.org/)
-- [Compojure](https://github.com/weavejester/compojure) for routing
+- [Compojure](https://github.com/weavejester/compojure) as router
 - [http-kit](https://github.com/http-kit/http-kit) as HTTP server
 - [Hiccup](https://github.com/weavejester/hiccup) as HTML renderer
 - [Atom](https://clojure.org/reference/atoms) as in-memory database
@@ -12,7 +12,8 @@
 ## Second Trial
 ### Tech
 - [ClojureScript](https://clojurescript.org/)
-- [shadow-cljs](http://shadow-cljs.org/)
+- [shadow-cljs](http://shadow-cljs.org/) as compiler
+- [secretary](https://github.com/clj-commons/secretary) as router
 
 ## Running the application locally
 ### Backend
