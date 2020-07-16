@@ -1,0 +1,1 @@
+(defproject bobsantos/clojure-basicweb "0.0.1")
