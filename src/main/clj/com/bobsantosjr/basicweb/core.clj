@@ -26,7 +26,7 @@
 
 (def app (-> handler
              rp/wrap-params
-             (wrap-cors :access-control-allow-origin [#".*"]
+             (wrap-cors :access-control-allow-origin [#"http://localhost:3001"]
                         :access-control-allow-methods [:get :put :post :delete])))
 
 (defn -main []
