@@ -1,1 +1,2 @@
-(defproject bobsantos/clojure-basicweb "0.0.1")
+(defproject basicweb "0.0.1"
+  :description "test")
