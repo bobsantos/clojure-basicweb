@@ -9,7 +9,7 @@
     "compile": "shadow-cljs compile app",
     "serve": "http-server public/",
     "release": "shadow-cljs release app",
-    "build": "yarn release && yarn serve"
+    "build": "npm run release && npm run serve"
   },
   "author": "",
   "license": "MIT",
